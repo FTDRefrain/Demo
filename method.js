@@ -216,3 +216,6 @@ function myMixin(obj, target) {
 	}
 	return newObj
 }
+
+// curry实现
+const myCurry = (fn, arr=[]) => fn.length === arr.length ? fn(arr) : (...args) => myCurry(fn, [...args, ...arr])

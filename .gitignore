@@ -2,3 +2,4 @@
 *.xml
 React_Hook_Demo
 tasks
+.DS_Store

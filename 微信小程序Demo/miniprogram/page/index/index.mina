@@ -1,0 +1,30 @@
+<template lang="pug">
+    view.container
+        view.userInfo(bindtap="bindViewTap")
+            text.userinfo-nickname {{userInfo.nickname}}
+</template>
+
+<script>
+    const {regeneratorRuntime, util} = global
+    var app = getApp()
+    Page({
+        data: {
+            motto: 'hw',
+            userInfo: {}
+        },
+        bindViewTap: function () {
+            wx.navigateTo({
+                url: '../logs/logs'
+            })
+        },
+        async onLoad() {
+            console.log('onLoad')
+            var that = this
+            const userInfo = await app.getUserInfo()
+            that.setData({
+                userInfo: userInfo
+            })
+
+        }
+    })
+</script>

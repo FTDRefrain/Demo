@@ -1,0 +1,4 @@
+现在的流程如下
+1. git push提交修改
+2. 等待CI编译
+3. 登录VPS执行 vpsRun.sh

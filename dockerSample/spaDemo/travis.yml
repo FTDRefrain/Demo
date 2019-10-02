@@ -1,0 +1,17 @@
+# Travis CI配置文件
+# 使用时候需要前面加. 且放到项目根目录里面
+# 然后去Travis进行配置
+language: node_js
+node_js:
+  - "12"
+services:
+  - docker
+
+before_install:
+  - npm install
+# docker里面的两行是hub.docker.com里面构建自己的用户名/包名
+script:
+  - npm run build
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t username/packageName:lastest .
+  - docker push username/packageName:lastest

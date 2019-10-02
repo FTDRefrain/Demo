@@ -1,0 +1,20 @@
+version: "3.7"
+# 两个容器指定
+services:
+    info:
+        container_name: pea3nut-info
+        image: pea3nut/pea3nut-info:latest
+        ports:
+            - "8082:80"
+        restart: on-failure
+    blog:
+        container_name: pea3nut-blog
+        # LAMP环境容器
+        image: tutum/lamp:latest
+        # 改变端口
+        ports:
+            - "8081:80"
+        volumes:
+            - ./blog/mysql-data:/var/lib/mysql
+            - ./blog/wordpress:/app
+        restart: on-failure

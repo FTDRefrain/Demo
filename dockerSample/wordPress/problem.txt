@@ -1,0 +1,3 @@
+wordPress apache + php + mySQL
+1. 源码不能公开，所以不是打包放到image这样
+2. 每次都是重新构建，sql里面数据没有

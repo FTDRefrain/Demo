@@ -45,4 +45,31 @@ const makeDependenciedGraph = entry => {
 			}
 		}
 	}
+	let graph = {}
+	graphArray.foreach(item => {
+		graph[item.filename = {
+			dependencies: item.dependencies,
+			code: item.code,
+		}]
+	})
+	return graph
+}
+
+const generateCode = entry => {
+	const graph = JSON.stringfy(makeDependenciedGraph(entry))
+	return `
+		(function(graph){
+			function require(module){
+				function localRequire(relativePath){
+					return graph[module].dependencies[relativePath]
+				}
+				var exports = {}
+				(function(require, exports, code){
+					eval(code)
+				})(localRequire, exports, graph[module].code)
+				return exports
+			}
+			require('${entry}')
+		})(${graph})
+	`
 }

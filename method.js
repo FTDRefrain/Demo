@@ -187,3 +187,28 @@ function myMixin(obj, target) {
 
 // curry实现
 const myCurry = (fn, arr=[]) => fn.length === arr.length ? fn(arr) : (...args) => myCurry(fn, [...args, ...arr])
+
+// async/await
+// 使用方式 myAsync(function*(){})().then(v => log(v))
+function myAsync(generFunc) {
+	return function() {
+		const gen = generFunc.apply(this, arguments)
+		return new Promise((rs, rj)=>{
+			function step(key, args){
+				let genResult
+				try {
+					genResult = gen[key](args)
+				} catch(err) {
+					return rj(err)
+				}
+				const {value, done} = genResult
+				if(done){
+					return rs(value)
+				} else {
+					return Promise.resolve(value).then(val => step('next', val), err => step('throw', err))
+				}
+			}
+			step('next')
+		})
+	}
+}

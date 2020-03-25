@@ -192,12 +192,12 @@ const myCurry = (fn, arr=[]) => fn.length === arr.length ? fn(arr) : (...args) =
 // 使用方式 myAsync(function*(){})().then(v => log(v))
 function myAsync(generFunc) {
 	return function() {
-		const gen = generFunc.apply(this, arguments)
+		const gen = generFunc.apply(this, arguments) // 返回generator
 		return new Promise((rs, rj)=>{
 			function step(key, args){
 				let genResult
 				try {
-					genResult = gen[key](args)
+					genResult = gen[key](args) // {value: Promise, done: 'next'}
 				} catch(err) {
 					return rj(err)
 				}
@@ -205,6 +205,7 @@ function myAsync(generFunc) {
 				if(done){
 					return rs(value)
 				} else {
+					// Promise.resolve里面可以放Promise，里面rs后才会进行外面的
 					return Promise.resolve(value).then(val => step('next', val), err => step('throw', err))
 				}
 			}
